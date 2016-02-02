@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui" contentType="text/html">
+
+    <ui:insert name="metadata" />
+
+    <html>
+
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+            <title>Open Source AE OpenSolutions Platform</title>
+            <!--
+            <link rel="shortcut icon" href="#{request.contextPath}/resources/favicon.ico" />
+            -->
+            
+            
+            <h:outputStylesheet name="css/core-layout.css" library="modena-layout" />
+            <h:outputStylesheet name="css/animate.css" library="modena-layout" />
+            <h:outputStylesheet name="css/modena-font.css" library="modena-layout" />
+            <h:outputStylesheet name="css/ripple-effect.css" library="modena-layout" />
+            <h:outputStylesheet name="css/perfect-scrollbar.css" library="modena-layout" />
+            <h:outputStylesheet name="css/font-awesome.css" library="modena-layout" />
+            <h:outputStylesheet name="css/modena-layout.css" library="modena-layout" />
+
+
+            <h:outputScript name="js/ripple-effect.js" library="modena-layout" />
+            <h:outputScript name="js/perfect-scrollbar.js" library="modena-layout" />
+            <h:outputScript name="js/layout.js" library="modena-layout" />
+
+            <ui:insert name="head" />
+
+            <!-- <a:loadScript src="resource://jquery.js" /> -->
+            <script type="text/javascript"
+                src="#{facesContext.externalContext.requestContextPath}/resources/js/equalHeight.js"></script>
+                
+                <h:outputScript>
+	$(document).bind('click', function(){
+	    return false;
+	});
+		
+	</h:outputScript>
+            
+        </h:head>
+
+        <h:body class="BlueModena Geometry">
+
+        <h:form>
+            <script type="text/javascript">
+                jQuery(function() {
+                    jQuery('.panels').equalHeights();
+                });
+            </script>
+            
+            
+            
+            <ui:include src="topbar.xhtml"></ui:include> 
+            
+            <!--
+            <div id="admin-bar">
+                <div id="logo">
+                    
+                </div>
+
+                <ul >
+                    <li><div class="top-bar-home"></div> 
+                        
+                        <h:link
+                            outcome="/home.xhtml" value="homeeee"
+                            styleClass="headerLink" /></li>
+
+
+                </ul>
+            </div>
+            -->
+            
+            <!--end of admin bar -->
+            
+            <!--
+            <div id="header">
+                <div id="logo">
+                </div>
+
+                <div id="headerleft"></div>
+                <div id="headerright"></div>
+            </div>
+            -->
+
+
+            <ui:insert name="navigation"> </ui:insert>
+
+            <div id="wrapper">
+                <div id="wrapperIndent">
+                    
+                    <ui:include src="layoutmenu.xhtml"></ui:include> 
+
+                    <div id="layout-portlets-cover">
+                        <div class="Container96 Fnone MarAuto">
+
+                            <ui:insert name="content">
+                            </ui:insert> 
+
+                            <!-- footer -->
+                            <div class="Container100">
+                                <div class="ContainerIndent TexAlCenter Fs14 BoldGray">
+                                    <!-- PrimeFaces Modena Theme And Layout  |  All Rights Reserved. -->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
+                        <f:facet name="start">
+                            <p:graphicImage name="images/preloader.gif" library="modena-layout"/>
+                        </f:facet>
+
+                        <f:facet name="complete">
+                            <h:outputText value="" />
+                        </f:facet>
+                    </p:ajaxStatus>
+                </div>
+            </div>
+
+            
+
+        </h:form>
+
+
+        </h:body>
+    </html>
+</f:view>

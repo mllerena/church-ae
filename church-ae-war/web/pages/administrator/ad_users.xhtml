@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../resources/layout/template.xhtml"
+                xmlns:ae="http://primefaces.org/aeopensolutions"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <ae:dataList id="dlUsuarios" value="#{adUser.listaUsuarios}" title="Lista Usuarios" rowKey="#{row.id}" > 
+
+            <p:column headerText="Código">
+                <h:outputText value="#{row.id}" />
+            </p:column>
+
+            <p:column headerText="usuario">
+                <h:outputText value="#{row.name}" />
+            </p:column>
+
+        </ae:dataList>
+
+    </ui:define>
+
+</ui:composition>
