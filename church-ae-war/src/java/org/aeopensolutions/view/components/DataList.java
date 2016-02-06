@@ -45,8 +45,8 @@ public abstract class DataList<E extends AbstractEntityModel> {
 
 	public void init() {
 		setEnabledCreate(true);
-		setEnabledEdit(false);
-		setEnabledSave(false);
+		setEnabledEdit(false);//
+		setEnabledSave(false);//
 		setEnabledDelete(false);
 		setEnabledCancel(false); 
 		setSelectItems(new ArrayList<E>());
@@ -310,7 +310,8 @@ public abstract class DataList<E extends AbstractEntityModel> {
 	protected E edit(E item) {
 		return item;
 	}
-
+            
+        /*
 	public final void actionDelete(String modal) { 
 		System.out.println("actionDelete datalist: " + getSelectItems());
 		delete(getSelectItems());
@@ -321,6 +322,7 @@ public abstract class DataList<E extends AbstractEntityModel> {
 		JsfUtils.executeJS("PF('wvEdit_" + modal+  "').hide();");
 		
 	}
+        */
 	
 	public final void actionDelete(ActionEvent action) { 
 		System.out.println("actionDelete datalist: " + getSelectItems());
@@ -335,7 +337,7 @@ public abstract class DataList<E extends AbstractEntityModel> {
 		throw new UnsupportedOperationException();
 	}
 
-	public final void actionSave(String modal) { 
+	public final void actionSave() { 
 		System.out.println("actionSave activeItem: " + this.activeItem);
 		// save(getSelectItems());
 
@@ -350,7 +352,7 @@ public abstract class DataList<E extends AbstractEntityModel> {
 		clear();
 		load();
 		
-		JsfUtils.executeJS("PF('wvEdit_" + modal+  "').hide();");
+		//JsfUtils.executeJS("PF('wvEdit_" + modal+  "').hide();");
 		
 		
 	}

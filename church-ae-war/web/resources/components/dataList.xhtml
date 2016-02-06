@@ -55,7 +55,7 @@
     </style>
 
 
-    <ae:context toolbarId="toolbar_#{id}" listId="list_#{id}" editId="modal_#{id}"  data="#{value.dataTable}" dataList="#{value}"> 
+    <ae:context toolbarId="toolbar_#{id}" listId="list_#{id}" formEditId="formEdit_#{id}" data="#{value.dataTable}" dataList="#{value}" activeItem="#{dataList.activeItem}"> 
 
         <h:panelGrid columns="1" id="#{id}" cellpadding="0" cellspacing="1" rendered="#{rendered}">
             <p:toolbar id="#{toolbarId}">
@@ -64,12 +64,12 @@
                 </f:facet>
                 <f:facet name="right">
 
-                    <p:commandButton icon="ui-icon-plus" id="cbNew_#{id}" oncomplete="PF('wvEdit_').show();" process="@this" update=" #{toolbarId} #{listId}"
+                    <p:commandButton icon="ui-icon-plus" id="cbNew_#{id}" process="@this" update="#{formEditId} #{toolbarId} #{listId}"
                                      actionListener="#{dataList.actionCreate}" value="#{labelNew}" rendered="#{renderedNew}" disabled="#{not dataList.enabledCreate}"> 
                         <f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
                     </p:commandButton>
 
-                    <p:commandButton icon="ui-icon-pencil" id="cbEdit_#{id}" oncomplete="PF('wvEdit_').show();" process="@this" update=""
+                    <p:commandButton icon="ui-icon-pencil" id="cbEdit_#{id}"  process="@this" update="#{formEditId}"
                                      actionListener="#{dataList.actionEdit}" value="#{labelEdit}" rendered="#{not (empty data) and renderedEdit}" disabled="#{not dataList.enabledEdit}">
                         <f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
                     </p:commandButton>
@@ -123,7 +123,7 @@
                     </h:panelGroup>
                 </p:column>
                 <ae:context header="">
-                    <ui:insert />
+                    <ui:insert name="table"/>
                 </ae:context> 
                 <ui:define name="events">
                     <p:ajax event="toggleSelect" listener="#{dataList.onRowSelect()}" process="#{listId}" update="@parent:#{toolbarId} #{listId}"/>
@@ -139,18 +139,11 @@
             </ae:dataTable>
 
             <p:remoteCommand name="onCellEditEvent#{listId}" update="@parent:#{toolbarId} #{listId}" process="@parent:#{toolbarId} #{listId}"></p:remoteCommand>    
-
-            <h:outputScript>
-
-                function handleEdit(xhr, status, args) {
-                console.log("args.warn: "+args.warn);
-                if(!args.warn) {
-                PF('wvNew_').show();
-                }
-                }
-
-            </h:outputScript>
-
+            
+            <h:panelGroup id="#{formEditId}" style="height:100%;" >
+                <ui:insert name="formEdit"/> 
+            </h:panelGroup>
+            
 
         </h:panelGrid>
 
