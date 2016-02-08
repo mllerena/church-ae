@@ -17,6 +17,9 @@
                 <p:menuitem id="cyan_geometric" value="Cyan" icon="icon-colorize" url="#" onclick="$('body').attr('class','').addClass('CyanModena Geometry');"/>
                 <p:menuitem id="red_geometric" value="Red" icon="icon-colorize" url="#" onclick="$('body').attr('class','').addClass('RedModena Geometry');"/>
             </p:submenu>
+            <p:submenu id="smAdmin" label="Administración" icon="icon-settings_applications">
+                <p:menuitem id="miUsuarios" value="Usuarios" icon="fa-user" outcome="/pages/administrator/ad_users"/>
+            </p:submenu>
             <p:submenu id="rm_theme" label="Modena Theme" icon="icon-format_color_fill">
                 <p:menuitem id="rm_forms" value="Form Elements" icon="icon-paper" outcome="/home"/>
                 <p:menuitem id="rm_data" value="Data Components" icon="icon-subtitles" outcome="/home"/>

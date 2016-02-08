@@ -292,7 +292,21 @@ public abstract class DataList<E extends AbstractEntityModel> {
 	public final void actionCreate(ActionEvent action) {
 		System.out.println("actionCreate datalist: " + action);
 		setActiveItem(create());
-		init();
+		//init();
+                
+                
+                setEnabledCreate(false);
+		setEnabledEdit(true);//para activar el resto
+		setEnabledSave(true);//
+                
+		setEnabledDelete(true);
+		setEnabledCancel(true); 
+                
+		setSelectItems(new ArrayList<E>());
+		setModifiedItems(new ArrayList<E>());
+		initialize();
+                
+                
 		clear();
 		load();
 		
@@ -337,7 +351,7 @@ public abstract class DataList<E extends AbstractEntityModel> {
 		throw new UnsupportedOperationException();
 	}
 
-	public final void actionSave() { 
+	public final void actionSave(ActionEvent action) { 
 		System.out.println("actionSave activeItem: " + this.activeItem);
 		// save(getSelectItems());
 

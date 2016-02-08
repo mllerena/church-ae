@@ -211,6 +211,25 @@ public class AdUserFacade extends AbstractFacade<AdUser> {
         }
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void delete(List<AdUser> adUserList) throws ExecuteRollbackException {
+        try {
+            if (adUserList == null) {
+                throw new ProcessOperationException("El parámetro adUserList no puede ser null.");
+            }
+
+            for (AdUser adUser : adUserList) {
+                this.delete(adUser);
+            }
+
+        } catch (ProcessOperationException e) {
+            throw new ExecuteRollbackException(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ExecuteRollbackException("Error al guardar los registros!");
+        }
+    }
+
     // =============================================================
     // METODOS VALIDACIONES 
     // =============================================================

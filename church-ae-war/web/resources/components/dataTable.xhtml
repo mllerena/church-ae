@@ -41,6 +41,8 @@
     <ae:default var="auditable" value="#{true}" />
 
     <ae:default var="renderedSelectionMode" value="true" />
+    
+    <ae:default var="rendered" value="#{true}" />
 
     <p:dataTable id="#{id}" var="row" value="#{dataTable}" widgetVar="wvDat_#{id}"  
                  rowKey="#{rowKey}" paginator="true" 
@@ -49,7 +51,7 @@
                  rowsPerPageTemplate="#{rowsPerPageTemplate}"
                  currentPageReportTemplate="Total: {totalRecords} ({currentPage} de {totalPages})"
                  emptyMessage="#{emptyMessage}" selection="#{selection}"
-                 editable="#{editable}" style="margin-bottom:0" editingRow="#{editingRow}" editMode="cell" rowStyleClass="#{rowStyleClass}"> 
+                 editable="#{editable}" style="margin-bottom:0" editingRow="#{editingRow}" editMode="cell" rowStyleClass="#{rowStyleClass}" rendered="#{rendered}"> 
 
 
         <f:facet name="{DetailRecords}">

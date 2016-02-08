@@ -8,17 +8,38 @@
 
     <ui:define name="content">
 
-        <ae:dataList id="dlUsuarios" value="#{adUser.listaUsuarios}" title="Lista Usuarios" rowKey="#{row.id}" > 
+        <h:form>
 
-            <p:column headerText="Código">
-                <h:outputText value="#{row.id}" />
-            </p:column>
+            <ae:dataList id="dlUsuarios" value="#{adUser.listaUsuarios}" title="Usuarios" rowKey="#{row.id}" > 
+                <ui:define name="table">
+                    <p:column headerText="Código">
+                        <h:outputText value="#{row.id}" />
+                    </p:column>
 
-            <p:column headerText="usuario">
-                <h:outputText value="#{row.name}" />
-            </p:column>
+                    <p:column headerText="usuario">
+                        <h:outputText value="#{row.name}" />
+                    </p:column>
 
-        </ae:dataList>
+                </ui:define>
+
+                <ui:define name="formEdit">
+                    <h:panelGrid columns="2">
+                        <p:outputLabel for="itUsername" value="Usuario:"></p:outputLabel>
+                        <p:inputText id="itUsername" value="#{activeItem.username}"></p:inputText>
+                        <p:outputLabel for="itPass1" value="Contraseña:"></p:outputLabel>
+                        <p:inputText id="itPass1" value="#{adUser.pass1}"></p:inputText>
+                        <p:outputLabel for="itPass2" value="Confirmación Contraseña:"></p:outputLabel>
+                        <p:inputText id="itPass2" value="#{adUser.pass2}"></p:inputText>
+                        <p:outputLabel for="itDescription" value="Descripción"></p:outputLabel>
+                        <p:inputText id="itDescription" value="#{activeItem.description}"></p:inputText>
+                    </h:panelGrid>                
+                </ui:define>
+
+
+
+            </ae:dataList>
+
+        </h:form>
 
     </ui:define>
 

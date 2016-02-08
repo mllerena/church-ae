@@ -26,6 +26,8 @@
     <ae:default var="labelProcess" value="Procesar" />
     <ae:default var="labelGenerate" value="Generar" />
 
+    <ae:default var="labelSaveEdit" value="Guardar Edit" />
+
     <ae:default var="messageDelete" value="¿Está seguro de eliminar la selección de registro(s)?" />
 
     <ae:default var="editable" value="#{true}" />
@@ -55,23 +57,34 @@
     </style>
 
 
-    <ae:context toolbarId="toolbar_#{id}" listId="list_#{id}" formEditId="formEdit_#{id}" data="#{value.dataTable}" dataList="#{value}" activeItem="#{dataList.activeItem}"> 
+    <ae:context toolbarId="toolbar_#{id}" listId="list_#{id}" formEditId="formEdit_#{id}" data="#{value.dataTable}" dataList="#{value}" > 
 
-        <h:panelGrid columns="1" id="#{id}" cellpadding="0" cellspacing="1" rendered="#{rendered}">
+        
+            
+        <h:panelGroup id="#{id}" style="height:100%;" rendered="#{rendered}" >                                    
+                  
             <p:toolbar id="#{toolbarId}">
                 <f:facet name="left">
-                    <span style="color: #546e7a;">#{title}</span>
+                    <h2 class="CardTopic">#{title}</h2>
                 </f:facet>
                 <f:facet name="right">
 
-                    <p:commandButton icon="ui-icon-plus" id="cbNew_#{id}" process="@this" update="#{formEditId} #{toolbarId} #{listId}"
-                                     actionListener="#{dataList.actionCreate}" value="#{labelNew}" rendered="#{renderedNew}" disabled="#{not dataList.enabledCreate}"> 
+                    <p:commandButton icon="ui-icon-plus" id="cbNew_#{id}" process="@this" update="#{id} #{formEditId} #{toolbarId} #{listId}"
+                                     actionListener="#{dataList.actionCreate}" value="#{labelNew}" rendered="#{renderedNew and dataList.enabledCreate}" disabled="#{not dataList.enabledCreate}"> 
                         <f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
                     </p:commandButton>
 
                     <p:commandButton icon="ui-icon-pencil" id="cbEdit_#{id}"  process="@this" update="#{formEditId}"
                                      actionListener="#{dataList.actionEdit}" value="#{labelEdit}" rendered="#{not (empty data) and renderedEdit}" disabled="#{not dataList.enabledEdit}">
                         <f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+                    </p:commandButton>
+
+
+                    <p:commandButton icon="ui-icon-disk" id="cbNew_#{formEditId}"
+                                     process="@this #{formEditId}"
+                                     update="#{id} #{formEditId} #{toolbarId} #{listId}"
+                                     actionListener="#{dataList.actionSave}" value="#{activeItem.id == null ? 'Guardar y Agregar' : 'Guardar Edit'}" 
+                                     rendered="#{dataList.enabledEdit}"> 
                     </p:commandButton>
 
                     <p:commandButton icon="ui-icon-disk" 
@@ -113,10 +126,12 @@
                 </f:facet>
 
             </p:toolbar>
+            
+            
 
             <ae:dataTable id="#{listId}" dataTable="#{data}" selectedRecords="#{dataList.rowSelectCountTotal}" totalRecords="#{dataList.rowCountTotal}" totalModified="#{dataList.rowModifiedCountTotal}"
                           rowKey="#{rowKey}"  selectionMode="multiple"  
-                          selection="#{dataList.selectItems}" editable="#{editable}" rowStyleClass="#{row.change? 'rowEdited' : null}" rows="#{rows}"  >
+                          selection="#{dataList.selectItems}" editable="#{editable}" rowStyleClass="#{row.change? 'rowEdited' : null}" rows="#{rows}" rendered="#{not dataList.enabledEdit}" >
                 <p:column headerText="" style="width:16px;text-align:center" >
                     <h:panelGroup rendered="#{row.change}" style="padding:0px;spacing:0px;">
                         <img src="../images/pencil.png" />
@@ -139,14 +154,24 @@
             </ae:dataTable>
 
             <p:remoteCommand name="onCellEditEvent#{listId}" update="@parent:#{toolbarId} #{listId}" process="@parent:#{toolbarId} #{listId}"></p:remoteCommand>    
-            
-            <h:panelGroup id="#{formEditId}" style="height:100%;" >
-                <ui:insert name="formEdit"/> 
-            </h:panelGroup>
-            
 
-        </h:panelGrid>
 
+            <ae:context activeItem="#{dataList.activeItem}">
+
+                <h:panelGroup id="#{formEditId}" style="height:100%;" rendered="#{dataList.enabledEdit}" >
+
+                    <div class="Container100">
+                            <div class="Card ShadowEffect HeiAutoOnMobile">
+                          
+                                <ui:insert name="formEdit"/> 
+                            </div>
+                        
+                    </div>
+                </h:panelGroup>
+
+            </ae:context>
+
+        </h:panelGroup>
 
 
 
