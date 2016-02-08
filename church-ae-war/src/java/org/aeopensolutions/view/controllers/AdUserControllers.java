@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.SessionScoped;
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import org.aeopensolutions.model.ejb.facades.AdUserFacade;
 import org.aeopensolutions.model.entities.AdUser;
 import org.aeopensolutions.model.exceptions.ExecuteRollbackException;
@@ -23,8 +24,8 @@ import org.aeopensolutions.view.utils.JsfUtils;
  *
  * @author Usuario
  */
-@Named("adUser")
-@SessionScoped
+@ManagedBean(name = "adUser")
+@ViewScoped
 public class AdUserControllers implements Serializable {
 
     @Inject
@@ -33,6 +34,11 @@ public class AdUserControllers implements Serializable {
     private String pass1;
 
     private String pass2;
+    
+    @PostConstruct
+    public void initialize(){
+        listaUsuarios.load();
+    }
 
     private DataList<AdUser> listaUsuarios = new DataList<AdUser>() {
         @Override
@@ -48,8 +54,20 @@ public class AdUserControllers implements Serializable {
         @Override
         protected AdUser create() {
             System.out.println("create aduser");
+            setPass1(null);
+            setPass2(null);
             return new AdUser();
         }
+
+        @Override
+        protected AdUser edit(AdUser item) {
+            System.out.println("edit aduser: "+item);
+            setPass1(item.getPassword());
+            setPass2(item.getPassword());
+            return item; 
+        }
+        
+        
 
         @Override
         protected AdUser save(AdUser item) {
@@ -79,6 +97,13 @@ public class AdUserControllers implements Serializable {
 
             JsfUtils.messageInfo(null, "Usuario eliminado correctamente.", null);
         }
+
+        @Override
+        protected void cancel() {
+            System.out.println("cancel user");
+        }
+        
+        
 
     };
 

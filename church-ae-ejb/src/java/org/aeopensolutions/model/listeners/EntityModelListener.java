@@ -21,7 +21,7 @@ public class EntityModelListener {
 
     @PrePersist
     public void prePersist(AbstractEntityModel e) {
-        e.setId(packageService.nextSequence(e));
+        //e.setId(packageService.nextSequence(e));
         e.setCreated(new Date());
         e.setCreatedby(security.getCurrentUser());
         e.setUpdated(new Date());

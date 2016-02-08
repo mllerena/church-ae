@@ -51,7 +51,7 @@ public abstract class DataList<E extends AbstractEntityModel> {
 		setEnabledCancel(false); 
 		setSelectItems(new ArrayList<E>());
 		setModifiedItems(new ArrayList<E>());
-		System.out.println("initialize DataList: ");
+		System.out.println("initialize DataList.. ");
 		initialize();
 	}
 	
@@ -173,6 +173,7 @@ public abstract class DataList<E extends AbstractEntityModel> {
 	}
 
 	public DataList<E> clear() {
+                System.out.println("esta entrando a clear()");
 		setDataTable(new ArrayList<E>());
 		setSelectItems(new ArrayList<E>());
 		setModifiedItems(new ArrayList<E>());
@@ -186,6 +187,7 @@ public abstract class DataList<E extends AbstractEntityModel> {
 	}
 	
 	public int getRowSelectCountTotal(){
+                System.out.println("getRowSelectCountTotal: "+getSelectItems());
 		return getSelectItems() != null ? getSelectItems().size() : 0;
 	}
 	
@@ -296,11 +298,11 @@ public abstract class DataList<E extends AbstractEntityModel> {
                 
                 
                 setEnabledCreate(false);
-		setEnabledEdit(true);//para activar el resto
-		setEnabledSave(true);//
+		setEnabledEdit(false);
                 
-		setEnabledDelete(true);
-		setEnabledCancel(true); 
+		setEnabledSave(true);//activo guardar
+		setEnabledDelete(false);//este se debe activar cuando el item existe
+		setEnabledCancel(true); //activo cancelar
                 
 		setSelectItems(new ArrayList<E>());
 		setModifiedItems(new ArrayList<E>());
@@ -319,6 +321,40 @@ public abstract class DataList<E extends AbstractEntityModel> {
 	public final void actionEdit(ActionEvent action) {
 		System.out.println("actionEdit datalist: " + getSelectItems());
 		edit(activeItem);
+                
+                
+                setEnabledCreate(false);
+		setEnabledEdit(true);
+		setEnabledSave(true);//activo guardar
+		setEnabledDelete(true);//este se debe activar cuando el item existe
+		setEnabledCancel(true); //activo cancelar
+                
+		setSelectItems(new ArrayList<E>());
+		setModifiedItems(new ArrayList<E>());
+		initialize();
+                
+	}
+        
+        public final void actionEdit(E row, String listId) {
+                setActiveItem(row);
+		System.out.println("actionEdit listener datalist: " + activeItem);
+		edit(activeItem);
+                
+                
+                setEnabledCreate(false);
+		setEnabledEdit(true);
+		setEnabledSave(true);//activo guardar
+		setEnabledDelete(true);//este se debe activar cuando el item existe
+		setEnabledCancel(true); //activo cancelar
+                
+		setSelectItems(new ArrayList<E>());
+		setModifiedItems(new ArrayList<E>());
+		initialize();
+                
+                String js =  "onEditEvent"+listId+"();"; 
+		
+		JsfUtils.executeJS(js);	
+                
 	}
 
 	protected E edit(E item) {
@@ -356,6 +392,8 @@ public abstract class DataList<E extends AbstractEntityModel> {
 		// save(getSelectItems());
 
 		E newItem = save(this.activeItem);
+                
+                if( newItem == null) return;
 
 		/*
 		 * if (newItem.getId() != null) { // definirlo como seleccionado
@@ -387,14 +425,14 @@ public abstract class DataList<E extends AbstractEntityModel> {
 		throw new UnsupportedOperationException();
 	}
 
-	public final void actionCancel(String modal) { 
+	public final void actionCancel(ActionEvent action) { 
 		System.out.println("actionCancel datalist: " + getSelectItems());
 		cancel();
 		init();
 		clear();
 		load();
 		
-		JsfUtils.executeJS("PF('wvEdit_" + modal+  "').hide();");
+		//JsfUtils.executeJS("PF('wvEdit_" + modal+  "').hide();");
 	}
 
 	protected void cancel() {

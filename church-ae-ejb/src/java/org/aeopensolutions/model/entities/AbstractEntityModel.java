@@ -1,5 +1,6 @@
 package org.aeopensolutions.model.entities;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.EntityListeners;
@@ -13,9 +14,9 @@ import org.aeopensolutions.model.listeners.EntityModelListener;
 @EntityListeners(value = EntityModelListener.class)
 public abstract class AbstractEntityModel {
 
-    public abstract String getId();
+    public abstract BigInteger getId();
 
-    public abstract void setId(String id);
+    public abstract void setId(BigInteger id);
 
     public abstract YesNo getIsactive();
 

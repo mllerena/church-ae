@@ -160,11 +160,11 @@ public class AdUserFacade extends AbstractFacade<AdUser> {
                     || !StringsUtils.isEmptyTrim(pass2)) {
                 // validar pass1
                 if (StringsUtils.isEmptyTrim(pass1)) {
-                    throw new ProcessOperationException("La contrase�a est� vac�a.");
+                    throw new ProcessOperationException("La contraseñaa está vacía.");
                 }
                 // validar pass2
                 if (!StringsUtils.eqTrim_NotNullOrEmpty(pass1, pass2)) {
-                    throw new ProcessOperationException("Contrase�a no concuerda.");
+                    throw new ProcessOperationException("Contraseña no concuerda.");
                 }
             }
 

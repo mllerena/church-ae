@@ -14,6 +14,7 @@
         .ui-paginator-left{
             float: left;
             line-height: 20px;
+            vertical-align: middle;
         }
 
         .ui-paginator-left > span{
@@ -43,6 +44,8 @@
     <ae:default var="renderedSelectionMode" value="true" />
     
     <ae:default var="rendered" value="#{true}" />
+    
+    <ae:default var="options" value="#{false}" />
 
     <p:dataTable id="#{id}" var="row" value="#{dataTable}" widgetVar="wvDat_#{id}"  
                  rowKey="#{rowKey}" paginator="true" 
@@ -55,23 +58,27 @@
 
 
         <f:facet name="{DetailRecords}">
-            <div class="ui-paginator-left">
+            <span class="ui-corner-all" >
                 <span>
-                    <h:panelGroup layout="block" rendered="#{editable}">
-                        Registros: #{totalRecords}
+                    <h:panelGroup layout="span" rendered="#{editable}" >
+                        Total Registros: #{totalRecords}
+                        <!--
                         <p:spacer width="10"></p:spacer> 
                         Seleccionados: #{selectedRecords}
                         <p:spacer width="10"></p:spacer> 
                         Modificados: #{totalModified}
+                        -->
                     </h:panelGroup>
                 </span>
-            </div>
+            </span>
         </f:facet>
 
         <ui:insert name="events"/>
 
+        
         <p:column selectionMode="#{selectionMode}" style="width:16px;text-align:center" rendered="#{renderedSelectionMode}"/> 
-
+        
+        
         <ae:context header="">
             <ui:insert />
         </ae:context>
@@ -95,6 +102,10 @@
         <p:column sortBy="#{row.updatedby}" headerText="Actualizado por" rendered="#{auditable}" width="120">
             <h:outputText value="#{row.updatedby}" />
         </p:column> 
+        
+        <p:column style="width:32px;text-align: center" rendered="#{options}">
+            <ui:insert name="options"/>
+        </p:column>
 
 
 

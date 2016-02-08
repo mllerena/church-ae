@@ -16,12 +16,15 @@ import javax.persistence.Convert;
 import javax.persistence.FetchType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -60,12 +63,15 @@ import org.aeopensolutions.model.enums.YesNo;
 public class AdRole extends AbstractEntityModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 32)
+    @SequenceGenerator(name = "AdRole_seq",
+            sequenceName = "ad_role_seq",
+            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AdRole_seq")
     @Column(name = "id")
-    private String id;
+    private BigInteger id;
     
     @Basic(optional = false)
     @NotNull
@@ -132,15 +138,15 @@ public class AdRole extends AbstractEntityModel implements Serializable {
     public AdRole() {
     }
     
-    public AdRole(String id) {
+    public AdRole(BigInteger id) {
         this.id = id;
     }
 
-    public String getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
     public YesNo getIsactive() {

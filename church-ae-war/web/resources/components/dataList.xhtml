@@ -68,33 +68,28 @@
                     <h2 class="CardTopic">#{title}</h2>
                 </f:facet>
                 <f:facet name="right">
+                    
+                    
 
                     <p:commandButton icon="ui-icon-plus" id="cbNew_#{id}" process="@this" update="#{id} #{formEditId} #{toolbarId} #{listId}"
                                      actionListener="#{dataList.actionCreate}" value="#{labelNew}" rendered="#{renderedNew and dataList.enabledCreate}" disabled="#{not dataList.enabledCreate}"> 
                         <f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
                     </p:commandButton>
 
-                    <p:commandButton icon="ui-icon-pencil" id="cbEdit_#{id}"  process="@this" update="#{formEditId}"
-                                     actionListener="#{dataList.actionEdit}" value="#{labelEdit}" rendered="#{not (empty data) and renderedEdit}" disabled="#{not dataList.enabledEdit}">
-                        <f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
-                    </p:commandButton>
 
-
-                    <p:commandButton icon="ui-icon-disk" id="cbNew_#{formEditId}"
+                    <p:commandButton icon="ui-icon-disk" id="cbSave_#{id}"
                                      process="@this #{formEditId}"
                                      update="#{id} #{formEditId} #{toolbarId} #{listId}"
-                                     actionListener="#{dataList.actionSave}" value="#{activeItem.id == null ? 'Guardar y Agregar' : 'Guardar Edit'}" 
-                                     rendered="#{dataList.enabledEdit}"> 
+                                     actionListener="#{dataList.actionSave}" value="#{activeItem.id == null ? 'Guardar y Agregar' : 'Guardar'}" 
+                                     rendered="#{dataList.enabledSave}">  
+                        <f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
                     </p:commandButton>
-
-                    <p:commandButton icon="ui-icon-disk" 
-                                     id="cbSave_#{id}" process="@this" update="#{toolbarId} #{listId}"
-                                     actionListener="#{dataList.actionMultiSave}"  value="#{labelSave}" rendered="#{not (empty data) and renderedSave}" disabled="#{not dataList.enabledSave}">
-                    </p:commandButton>				
+                    
 
                     <p:commandButton icon="ui-icon-trash" 
-                                     id="cbDelete_#{id}" process="@this" update="#{toolbarId} #{listId}"
-                                     actionListener="#{dataList.actionDelete}" value="#{labelDelete}" rendered="#{not (empty data) and renderedDelete}" disabled="#{not dataList.enabledDelete}"> 
+                                     id="cbDelete_#{id}" process="@this" update="#{id} #{toolbarId} #{listId}"
+                                     actionListener="#{dataList.actionDelete}" value="#{labelDelete}" rendered="#{dataList.enabledDelete}" disabled="#{not dataList.enabledDelete}"> 
+                        <f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
                         <p:confirm header="Confirmación" message="#{messageDelete}"
                                    icon="ui-icon-alert"  />
                     </p:commandButton>
@@ -102,9 +97,10 @@
 
 
                     <p:commandButton icon="ui-icon-cancel" 
-                                     process="@this" update="#{toolbarId} #{listId}"
+                                     process="@this" update="#{id} #{toolbarId} #{listId}"
                                      actionListener="#{dataList.actionCancel}" disabled="#{not dataList.enabledCancel}"
-                                     id="cbCancel_#{id}" rendered="#{not (empty data) and renderedCancel}" value="#{labelCancel}">
+                                     id="cbCancel_#{id}" rendered="#{dataList.enabledCancel}" value="#{labelCancel}">
+                        <f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
                     </p:commandButton>
 
                     <p:commandButton icon="ui-icon-check" 
@@ -118,6 +114,10 @@
                                      actionListener="#{dataList.actionGenerate}"
                                      id="cbGenerate_#{id}" rendered="#{not (empty data) and renderedGenerate}" value="#{labelGenerate}" disabled="#{not dataList.enabledGenerate}"> 
                     </p:commandButton>
+                    
+                    
+                    <p:remoteCommand name="onEditEvent#{listId}" process="@this" 
+                                     update="#{id} #{formEditId} #{toolbarId} #{listId}"></p:remoteCommand>
 
                     <ui:insert name="extraButtons" />
 
@@ -131,34 +131,52 @@
 
             <ae:dataTable id="#{listId}" dataTable="#{data}" selectedRecords="#{dataList.rowSelectCountTotal}" totalRecords="#{dataList.rowCountTotal}" totalModified="#{dataList.rowModifiedCountTotal}"
                           rowKey="#{rowKey}"  selectionMode="multiple"  
-                          selection="#{dataList.selectItems}" editable="#{editable}" rowStyleClass="#{row.change? 'rowEdited' : null}" rows="#{rows}" rendered="#{not dataList.enabledEdit}" >
+                          selection="#{dataList.selectItems}" renderedSelectionMode="false" editable="#{editable}" rowStyleClass="#{row.change? 'rowEdited' : null}" rows="#{rows}" rendered="#{not dataList.enabledSave}" 
+                          options="true">
+                
+                <!--
                 <p:column headerText="" style="width:16px;text-align:center" >
                     <h:panelGroup rendered="#{row.change}" style="padding:0px;spacing:0px;">
                         <img src="../images/pencil.png" />
                     </h:panelGroup>
                 </p:column>
+                -->
+                
                 <ae:context header="">
                     <ui:insert name="table"/>
                 </ae:context> 
-                <ui:define name="events">
-                    <p:ajax event="toggleSelect" listener="#{dataList.onRowSelect()}" process="#{listId}" update="@parent:#{toolbarId} #{listId}"/>
+                <ui:define name="events"> 
+                    
+                    <!--
+                    <p:ajax event="rowSelectCheckbox" listener="#{dataList.onRowSelect()}" /> 
+                    
+                    
+                    <p:ajax event="rowUnselectCheckbox" listener="#{dataList.onRowUnselect()}" process="@this #{listId}" update="#{id} #{listId}" partialSubmit="true"/>
+                    
+                    
+                    <p:ajax event="toggleSelect" listener="#{dataList.onRowSelect()}" process="#{listId}" update="#{id} @parent:#{toolbarId} #{listId}"/>
+                    
+                    -->
 
-                    <p:ajax event="rowSelectCheckbox" listener="#{dataList.onRowSelect()}" process="#{listId}"  update="@parent:#{toolbarId} #{listId}"/> 
-                    <p:ajax event="rowUnselectCheckbox" listener="#{dataList.onRowUnselect()}" process="#{listId}" update="@parent:#{toolbarId} #{listId}"/>
-
-                    <p:ajax event="cellEdit" listener="#{dataList.onCellEdit(row,listId)}" ignoreAutoUpdate="true" process="@this" />     
-
-                </ui:define> 
+                </ui:define>
+                
+                <ui:define name="options"> 
+                    
+                    <p:commandButton id="cbEdit_#{id}"
+                                     process="@this" 
+                                     ignoreAutoUpdate="true"
+                                     actionListener="#{dataList.actionEdit(row,listId)}" icon="ui-icon-pencil"  >  
+                    </p:commandButton>
+                    
+                </ui:define>
 
 
             </ae:dataTable>
 
-            <p:remoteCommand name="onCellEditEvent#{listId}" update="@parent:#{toolbarId} #{listId}" process="@parent:#{toolbarId} #{listId}"></p:remoteCommand>    
-
 
             <ae:context activeItem="#{dataList.activeItem}">
 
-                <h:panelGroup id="#{formEditId}" style="height:100%;" rendered="#{dataList.enabledEdit}" >
+                <h:panelGroup id="#{formEditId}" style="height:100%;" rendered="#{dataList.enabledSave}" >
 
                     <div class="Container100">
                             <div class="Card ShadowEffect HeiAutoOnMobile">

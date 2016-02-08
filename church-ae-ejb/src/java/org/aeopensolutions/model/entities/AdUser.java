@@ -6,11 +6,10 @@
 package org.aeopensolutions.model.entities;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -21,15 +20,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import org.aeopensolutions.model.converters.YesNoConverter;
 import org.aeopensolutions.model.enums.YesNo;
@@ -71,47 +67,63 @@ import org.aeopensolutions.model.enums.YesNo;
 public class AdUser extends AbstractEntityModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id")
-    private String id;
-    @Basic(optional = false)
+    @SequenceGenerator(name = "AdUser_seq",
+            sequenceName = "ad_user_seq",
+            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AdUser_seq")
+    private BigInteger id;
 
+    @Basic(optional = false)
     @Column(name = "isactive")
     @Convert(converter = YesNoConverter.class)
+    @NotNull
     private YesNo isactive;
 
     @Basic(optional = false)
-
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
     private Date created;
-    @Basic(optional = false)
 
+    @Basic(optional = false)
     @Column(name = "createdby")
+    @NotNull
     private String createdby;
-    @Basic(optional = false)
 
+    @Basic(optional = false)
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
     private Date updated;
-    @Basic(optional = false)
 
+    @Basic(optional = false)
     @Column(name = "updatedby")
+    @NotNull
     private String updatedby;
-    @Basic(optional = false)
 
+    @Basic(optional = false)
+    @Column(name = "username")
+    @NotNull
+    private String username;
+
+    @Column(name = "password")
+    @NotNull
+    private String password;
+
+    @Basic(optional = false)
     @Column(name = "name")
     private String name;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "password")
-    private String password;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-
     @Column(name = "email")
     private String email;
+
     @Column(name = "processing")
     private Character processing;
 
@@ -153,33 +165,30 @@ public class AdUser extends AbstractEntityModel implements Serializable {
     @Column(name = "lastname")
     private String lastname;
 
-    @Column(name = "username")
-    private String username;
     @Basic(optional = false)
-
     @Column(name = "islocked")
     private Character islocked;
 
     @JoinColumn(name = "default_ad_role_id", referencedColumnName = "id")
     @ManyToOne(fetch = javax.persistence.FetchType.LAZY)
-    private AdRole defaultAdRoleId; 
-    
-    @JoinColumn(name = "supervisor_id", referencedColumnName = "id") 
+    private AdRole defaultAdRoleId;
+
+    @JoinColumn(name = "supervisor_id", referencedColumnName = "id")
     @ManyToOne(fetch = javax.persistence.FetchType.LAZY)
     private AdUser supervisorId;
 
     public AdUser() {
     }
 
-    public AdUser(String id) {
+    public AdUser(BigInteger id) {
         this.id = id;
     }
-    
-    public String getId() {
+
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 
@@ -415,6 +424,5 @@ public class AdUser extends AbstractEntityModel implements Serializable {
     public String toString() {
         return "org.aeopensolutions.model.entities.AdUser[ id=" + id + " ]";
     }
-
 
 }

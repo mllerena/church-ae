@@ -6,6 +6,7 @@
 package org.aeopensolutions.model.entities;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -19,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -55,7 +57,11 @@ public class AdUserRoles extends AbstractEntityModel implements Serializable {
     
     @Id
     @Column(name = "id")
-    private String id;
+    @SequenceGenerator(name = "AdUserRoles_seq",
+            sequenceName = "ad_user_roles_seq",
+            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AdUserRoles_seq")
+    private BigInteger id;
     
     @Basic(optional = false)
     @NotNull
@@ -99,23 +105,23 @@ public class AdUserRoles extends AbstractEntityModel implements Serializable {
     public AdUserRoles() {
     }
 
-    public AdUserRoles(String id) {
+    public AdUserRoles(BigInteger id) {
         this.id = id;
     }
     
-    public String getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 
-    public String getAdUserRolesId() {
+    public BigInteger getAdUserRolesId() {
         return id;
     }
 
-    public void setAdUserRolesId(String id) {
+    public void setAdUserRolesId(BigInteger id) {
         this.id = id;
     }
 
