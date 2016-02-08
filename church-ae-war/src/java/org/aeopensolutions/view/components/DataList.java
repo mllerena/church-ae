@@ -376,7 +376,10 @@ public abstract class DataList<E extends AbstractEntityModel> {
 	
 	public final void actionDelete(ActionEvent action) { 
 		System.out.println("actionDelete datalist: " + getSelectItems());
-		delete(getSelectItems());
+                
+                List<E> deleteList = new  ArrayList<E>();       
+                deleteList.add(getActiveItem());
+		delete(deleteList);
 		init();
 		clear();
 		load();
