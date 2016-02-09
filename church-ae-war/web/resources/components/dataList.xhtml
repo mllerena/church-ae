@@ -80,14 +80,14 @@
                     <p:commandButton icon="ui-icon-disk" id="cbSave_#{id}"
                                      process="@this #{formEditId}"
                                      update="#{id} #{formEditId} #{toolbarId} #{listId}"
-                                     actionListener="#{dataList.actionSave}" value="#{activeItem.id == null ? 'Guardar y Agregar' : 'Guardar'}" 
+                                     actionListener="#{dataList.actionSave}" value="#{labelSave}" 
                                      rendered="#{dataList.enabledSave}">  
                         <f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
                     </p:commandButton>
                     
 
                     <p:commandButton icon="ui-icon-trash" 
-                                     id="cbDelete_#{id}" process="@this" update="#{id} #{toolbarId} #{listId}"
+                                     id="cbDelete_#{id}" process="@this #{formEditId}" update="#{id} #{formEditId} #{toolbarId} #{listId}"
                                      actionListener="#{dataList.actionDelete}" value="#{labelDelete}" rendered="#{dataList.enabledDelete}" disabled="#{not dataList.enabledDelete}"> 
                         <f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
                         <p:confirm header="Confirmación" message="#{messageDelete}"

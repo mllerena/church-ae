@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <f:view xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui" contentType="text/html">
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui" contentType="text/html">
 
     <ui:insert name="metadata" />
 
@@ -16,8 +16,8 @@
             <!--
             <link rel="shortcut icon" href="#{request.contextPath}/resources/favicon.ico" />
             -->
-            
-            
+
+
             <h:outputStylesheet name="css/core-layout.css" library="modena-layout" />
             <h:outputStylesheet name="css/animate.css" library="modena-layout" />
             <h:outputStylesheet name="css/modena-font.css" library="modena-layout" />
@@ -35,30 +35,30 @@
 
             <!-- <a:loadScript src="resource://jquery.js" /> -->
             <script type="text/javascript"
-                src="#{facesContext.externalContext.requestContextPath}/resources/js/equalHeight.js"></script>
-                
-                <h:outputScript>
-	$(document).bind('click', function(){
-	    return false;
-	});
-		
-	</h:outputScript>
-            
+            src="#{facesContext.externalContext.requestContextPath}/resources/js/equalHeight.js"></script>
+
+            <h:outputScript>
+                $(document).bind('click', function(){
+                return false;
+                });
+
+            </h:outputScript>
+
         </h:head>
 
         <h:body class="BlueModena Geometry">
 
-        
+
             <script type="text/javascript">
-                jQuery(function() {
+                jQuery(function () {
                     jQuery('.panels').equalHeights();
                 });
             </script>
-            
+
             <p:growl autoUpdate="true" > </p:growl>
-            
+
             <ui:include src="topbar.xhtml"></ui:include> 
-            
+
             <!--
             <div id="admin-bar">
                 <div id="logo">
@@ -76,9 +76,9 @@
                 </ul>
             </div>
             -->
-            
+
             <!--end of admin bar -->
-            
+
             <!--
             <div id="header">
                 <div id="logo">
@@ -94,7 +94,7 @@
 
             <div id="wrapper">
                 <div id="wrapperIndent">
-                    
+
                     <ui:include src="layoutmenu.xhtml"></ui:include> 
 
                     <div id="layout-portlets-cover">
@@ -125,9 +125,17 @@
                 </div>
             </div>
 
-            
 
-        
+            <h:form id="fConfirm">
+                <p:confirmDialog global="true" closeOnEscape="true" showEffect="fade"
+                                 hideEffect="fade" >
+                    <p:commandButton value="SI" type="button" process="@this"
+                                     styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button"
+                                     styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </h:form>
+
 
 
         </h:body>
