@@ -16,6 +16,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import org.aeopensolutions.model.ejb.facades.AdUserFacade;
 import org.aeopensolutions.model.entities.AdUser;
+import org.aeopensolutions.model.enums.YesNo;
 import org.aeopensolutions.model.exceptions.ExecuteRollbackException;
 import org.aeopensolutions.view.components.DataList;
 import org.aeopensolutions.view.utils.JsfUtils;
@@ -48,7 +49,10 @@ public class AdUserControllers implements Serializable {
 
         @Override
         public List<AdUser> loadDataList() {
-            return adUserFacade.findAll();
+            //entidad para filtrar
+            AdUser user = new AdUser();
+            user.setIsactive(YesNo.SI);
+            return adUserFacade.find(user);
         }
 
         @Override
@@ -62,6 +66,7 @@ public class AdUserControllers implements Serializable {
         @Override
         protected AdUser edit(AdUser item) {
             System.out.println("edit aduser: "+item);
+            
             setPass1(item.getPassword());
             setPass2(item.getPassword());
             return item; 
@@ -72,7 +77,6 @@ public class AdUserControllers implements Serializable {
         @Override
         protected AdUser save(AdUser item) {
             System.out.println("save aduser: " + item);
-
             try {
                 adUserFacade.save(item, getPass1(), getPass2());
             } catch (Exception e) {

@@ -36,6 +36,7 @@ import org.aeopensolutions.model.exceptions.ExistException;
 import org.aeopensolutions.model.exceptions.ProcessOperationException;
 import org.aeopensolutions.model.utils.DateUtils;
 import org.aeopensolutions.model.utils.StringsUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *
@@ -167,11 +168,11 @@ public class AdUserFacade extends AbstractFacade<AdUser> {
                     throw new ProcessOperationException("Contraseña no concuerda.");
                 }
             }
-
-            user.setPassword(pass1.trim());
+            
+            String password = DigestUtils.sha256Hex(pass1.trim());
+            user.setPassword(password);
 
             if (user.getId() == null) {
-
                 user.setName(user.getUsername());
                 user.setIslocked(new Character('N'));
                 validarExistencia(user);
