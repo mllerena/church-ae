@@ -20,6 +20,7 @@ import org.aeopensolutions.model.enums.YesNo;
 import org.aeopensolutions.model.exceptions.ExecuteRollbackException;
 import org.aeopensolutions.view.components.DataList;
 import org.aeopensolutions.view.utils.JsfUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *
@@ -66,9 +67,8 @@ public class AdUserControllers implements Serializable {
         @Override
         protected AdUser edit(AdUser item) {
             System.out.println("edit aduser: "+item);
-            
-            setPass1(item.getPassword());
-            setPass2(item.getPassword());
+            //setPass1(item.getPassword());
+            //setPass2(item.getPassword());
             return item; 
         }
         
